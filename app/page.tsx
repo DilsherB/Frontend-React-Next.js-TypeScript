@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 
 import EmployeeProfile from "@/components/EmployeeProfile";
+import EmployeeTimer from "@/components/EmployeeTimer";
 
 interface Employee {
   id: number;
@@ -57,6 +58,7 @@ export default function Home() {
           onIncrease={() => incFunc(employee.id)}
         />
       ))}
+      <EmployeeTimer />
     </main>
   );
 }
