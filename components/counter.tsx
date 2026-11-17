@@ -18,10 +18,12 @@ export default function Counter() {
   };
   return (
     <>
-      <div className="text-center">Value: {counter}</div>
+      <div className="flex text-center justify-center m-4">
+        <div className="w-20 border border-slate-400 px-2 rounded-md">Value: {counter}</div>
+      </div>
       <div className="flex justify-center gap-10">
-        <Button onClick={increase}>Increase by 1</Button>
-        <Button onClick={decrease}>Decrease by 1</Button>
+        <Button size="sm" onClick={increase}>Increase by 1</Button>
+        <Button size="sm" onClick={decrease}>Decrease by 1</Button>
       </div>
     </>
   );
