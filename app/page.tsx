@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 
 import EmployeeProfile from "@/components/EmployeeProfile";
 import EmployeeTimer from "@/components/EmployeeTimer";
+import Counter from "@/components/counter";
 
 interface Employee {
   id: number;
@@ -59,6 +60,7 @@ export default function Home() {
         />
       ))}
       <EmployeeTimer />
+      <Counter />
     </main>
   );
 }

@@ -14,7 +14,7 @@ export default function EmployeeTimer() {
     }, [])
   return (
     <div>
-      <p>Counter: {counter}</p>
+      {/* <p>Counter: {counter}</p> */}
     </div>
   );
 }
