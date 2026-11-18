@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import EmployeeProfile from "@/components/EmployeeProfile";
 import EmployeeTimer from "@/components/EmployeeTimer";
 import Counter from "@/components/counter";
-import ThemeChanger from "@/components/ThemeChanger";
+import ThemeChanger from "@/app/ThemeChanger";
 
 interface Employee {
   id: number;
@@ -63,6 +63,7 @@ export default function Home() {
       <ThemeChanger />
       <EmployeeTimer />
       <Counter />
+      <ThemeChanger />
     </main>
   );
 }
