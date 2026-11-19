@@ -1,5 +1,100 @@
 "use client";
 
+import { useRef, useState } from "react";
+
+const createPassword = (len: number, isNumber: boolean, isChar: boolean) => {
+  let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  if (isNumber) str += "0123456789";
+  if (isChar) str += "~!@#$%&*";
+  let pass = "";
+  const randomValues = new Uint32Array(len);
+  crypto.getRandomValues(randomValues);
+  for (let i = 0; i < len; i++) {
+    pass += str.charAt(randomValues[i] % str.length);
+  }
+  return pass;
+};
+
+export default function PasswordGenerator() {
+  const [password, setPassword] = useState(() =>
+    createPassword(8, false, false),
+  );
+  const [length, setLength] = useState(8);
+  const [number, setNumber] = useState(false);
+  const [chars, setChars] = useState(false);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <section className="bg-slate-700 my-6 w-3/4 justify-self-center rounded-xl p-4">
+      <div className="flex rounded-lg overflow-hidden justify-self-center">
+        <input
+          type="text"
+          value={password}
+          ref={passwordRef}
+          readOnly
+          onChange={(e) => createPassword(length, number, chars)}
+          className="bg-white text-black px-1"
+        />
+        <button
+          onClick={() => {
+            passwordRef.current?.select();
+            navigator.clipboard.writeText(password);
+          }}
+          className="bg-blue-600 hover:bg-blue-800 px-2 cursor-pointer"
+        >
+          Copy
+        </button>
+      </div>
+      <div className="flex justify-self-center gap-6 mt-4 w-full">
+        <div className="mt-6 flex place-self-center">
+          <input
+            type="range"
+            min={1}
+            max={25}
+            value={length}
+            onChange={(e) => {
+              const newLength = Number(e.target.value);
+              setLength(newLength);
+              setPassword(createPassword(newLength, number, chars));
+            }}
+          />
+          <span>Length({length})</span>
+        </div>
+        <div className="flex-col border border-slate-500 rounded-lg p-1 w-full">
+          <div className="justify-self-center">Include</div>
+          <div className="flex justify-between px-4">
+            <div>
+              <input
+                type="checkbox"
+                checked={number}
+                onChange={(e) => {
+                  const incNumber = e.target.checked;
+                  setNumber(incNumber);
+                  setPassword(createPassword(length, incNumber, chars));
+                }}
+              />
+              <span>Numbers</span>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                checked={chars}
+                onChange={(e) => {
+                  const incChars = e.target.checked;
+                  setChars(incChars);
+                  setPassword(createPassword(length, number, incChars));
+                }}
+              />
+              <span>Charactors</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/*
 import { useCallback, useEffect, useState, useRef } from "react";
 
 function PasswordGenerator() {
@@ -87,3 +182,4 @@ function PasswordGenerator() {
 }
 
 export default PasswordGenerator;
+*/

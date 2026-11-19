@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 import EmployeeProfile from "@/components/EmployeeProfile";
 import EmployeeTimer from "@/components/EmployeeTimer";
@@ -53,21 +53,23 @@ export default function Home() {
     console.log("Employee Management component mounted");
   }, []);
   return (
-    <main className="p-6 mt-8 mb-20">
-      <h1 className="text-2xl font-bold text-center">Employee Management</h1>
-      {employees.map((employee) => (
-        <EmployeeProfile
-          key={employee.id}
-          employee={employee}
-          onIncrease={() => incFunc(employee.id)}
-        />
-      ))}
-      <ThemeChanger />
-      <EmployeeTimer />
-      <Counter />
-      {/* <BgChanger /> */}
-      <PasswordGenerator />
-      <ThemeChanger />
-    </main>
+    <Suspense fallback={<p>Loading Password Generator...</p>}>
+      <main className="p-6 mt-8 mb-20">
+        <h1 className="text-2xl font-bold text-center">Employee Management</h1>
+        {employees.map((employee) => (
+          <EmployeeProfile
+            key={employee.id}
+            employee={employee}
+            onIncrease={() => incFunc(employee.id)}
+          />
+        ))}
+        <ThemeChanger />
+        <EmployeeTimer />
+        <Counter />
+        {/* <BgChanger /> */}
+        <PasswordGenerator />
+        <ThemeChanger />
+      </main>
+    </Suspense>
   );
 }
