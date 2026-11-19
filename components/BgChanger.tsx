@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { Button } from "./Button";
 
-function ThemeChanger() {
+function BgChanger() {
   const [color, setColor] = useState("olive");
-  const setColorFun = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const changeColor = (e: React.MouseEvent<HTMLButtonElement>) => {
     setColor(e.currentTarget.id || "olive");
   };
   return (
@@ -18,19 +18,19 @@ function ThemeChanger() {
           id="btn container"
           className="flex justify-between px-4 py-1 h-10 border-slate-300 fixed bottom-6 inset-0 rounded-2xl bg-transparent"
         >
-          <Button id="blue" onClick={setColorFun}>
+          <Button size="sm" id="blue" onClick={changeColor}>
             Blue
           </Button>
-          <Button id="red" variant="danger" onClick={setColorFun}>
+          <Button id="red" variant="danger" onClick={changeColor}>
             Red
           </Button>
-          <Button id="black" variant="ghost" onClick={setColorFun}>
+          <Button id="black" variant="ghost" onClick={changeColor}>
             Black
           </Button>
-          <Button id="green" variant="secondary" onClick={setColorFun}>
+          <Button id="green" variant="secondary" onClick={changeColor}>
             Green
           </Button>
-          <Button id="white" variant="white" onClick={setColorFun}>
+          <Button id="white" variant="white" onClick={changeColor}>
             White
           </Button>
         </div>
@@ -39,4 +39,4 @@ function ThemeChanger() {
   );
 }
 
-export default ThemeChanger;
+export default BgChanger;

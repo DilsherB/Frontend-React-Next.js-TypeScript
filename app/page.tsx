@@ -5,6 +5,8 @@ import EmployeeProfile from "@/components/EmployeeProfile";
 import EmployeeTimer from "@/components/EmployeeTimer";
 import Counter from "@/components/counter";
 import ThemeChanger from "@/app/ThemeChanger";
+import BgChanger from "@/components/BgChanger";
+import PasswordGenerator from "@/components/PasswordGenerator";
 
 interface Employee {
   id: number;
@@ -51,7 +53,7 @@ export default function Home() {
     console.log("Employee Management component mounted");
   }, []);
   return (
-    <main className="p-6 mt-8">
+    <main className="p-6 mt-8 mb-20">
       <h1 className="text-2xl font-bold text-center">Employee Management</h1>
       {employees.map((employee) => (
         <EmployeeProfile
@@ -63,6 +65,8 @@ export default function Home() {
       <ThemeChanger />
       <EmployeeTimer />
       <Counter />
+      {/* <BgChanger /> */}
+      <PasswordGenerator />
       <ThemeChanger />
     </main>
   );
