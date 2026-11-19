@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 
 function PasswordGenerator() {
   const [password, setPassword] = useState("");
@@ -13,15 +13,21 @@ function PasswordGenerator() {
     if (chars) str += "!@#$%&*-_~`";
     if (numbers) str += "0123456789";
     let pass: string = "";
-    for (let i = 1; i < length; i++) {
-      pass += str.charAt(Math.floor(Math.random() * str.length + 1));
+    for (let i = 0; i < length; i++) {
+      pass += str.charAt(Math.floor(Math.random() * str.length));
     }
     setPassword(pass);
-  }, [length, chars, numbers, setPassword]);
+  }, [length, chars, numbers]);
 
   useEffect(() => {
     PassGen();
-  }, [length, chars, numbers, PassGen]);
+  }, [PassGen]);
+
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const copyPassword = useCallback(() => {
+    passwordRef.current?.select();
+    navigator.clipboard.writeText(passwordRef.current?.value ?? "");
+  }, []);
 
   return (
     <div className="w-1/2 justify-self-center bg-slate-400 rounded-2xl m-2 py-2">
@@ -31,11 +37,15 @@ function PasswordGenerator() {
           type="text"
           className="px-3 py-1 outline-none w-full bg-white text-black"
           value={password}
+          ref={passwordRef}
           onChange={PassGen}
           readOnly
           placeholder="Password"
         />
-        <button className="bg-blue-500 px-2 cursor-pointer hover:bg-blue-800">
+        <button
+          onClick={copyPassword}
+          className="bg-blue-500 px-2 cursor-pointer hover:bg-blue-800"
+        >
           Copy
         </button>
       </div>
@@ -44,7 +54,7 @@ function PasswordGenerator() {
           <input
             type="range"
             className="cursor-pointer"
-            min={0}
+            min={1}
             max={20}
             value={length}
             onChange={(e) => {
@@ -57,10 +67,8 @@ function PasswordGenerator() {
           <input
             type="checkbox"
             id="numbers"
-            defaultChecked={numbers}
-            onChange={() => {
-              setNumbers((pre) => !pre);
-            }}
+            checked={numbers}
+            onChange={(e) => setNumbers(e.target.checked)}
           />
           Numbers
         </p>
@@ -68,10 +76,8 @@ function PasswordGenerator() {
           <input
             type="checkbox"
             id="charactors"
-            defaultChecked={chars}
-            onChange={() => {
-              setChars((pre) => !pre);
-            }}
+            checked={chars}
+            onChange={(e) => setChars(e.target.checked)}
           />
           Charactors
         </p>
