@@ -9,7 +9,9 @@ const createPassword = (len: number, isNumber: boolean, isChar: boolean) => {
   let pass = "";
   const randomValues = new Uint32Array(len);
   crypto.getRandomValues(randomValues);
-  for (let i = 0; i < len; i++) {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  pass = letters.charAt(randomValues[0] % letters.length).toUpperCase();
+  for (let i = 1; i < len; i++) {
     pass += str.charAt(randomValues[i] % str.length);
   }
   return pass;
@@ -23,6 +25,13 @@ export default function PasswordGenerator() {
   const [number, setNumber] = useState(false);
   const [chars, setChars] = useState(false);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const generateNewPass = ({
+    len = length,
+    theNumber = number,
+    theChars = chars,
+  } = {}) => {
+    setPassword(createPassword(len, theNumber, theChars));
+  };
 
   return (
     <section className="bg-slate-700 my-6 w-3/4 justify-self-center rounded-xl p-4">
@@ -32,7 +41,6 @@ export default function PasswordGenerator() {
           value={password}
           ref={passwordRef}
           readOnly
-          onChange={(e) => createPassword(length, number, chars)}
           className="bg-white text-black px-1"
         />
         <button
@@ -55,7 +63,7 @@ export default function PasswordGenerator() {
             onChange={(e) => {
               const newLength = Number(e.target.value);
               setLength(newLength);
-              setPassword(createPassword(newLength, number, chars));
+              generateNewPass({ len: newLength });
             }}
           />
           <span>Length({length})</span>
@@ -70,7 +78,7 @@ export default function PasswordGenerator() {
                 onChange={(e) => {
                   const incNumber = e.target.checked;
                   setNumber(incNumber);
-                  setPassword(createPassword(length, incNumber, chars));
+                  generateNewPass({ theNumber: incNumber });
                 }}
               />
               <span>Numbers</span>
@@ -82,7 +90,7 @@ export default function PasswordGenerator() {
                 onChange={(e) => {
                   const incChars = e.target.checked;
                   setChars(incChars);
-                  setPassword(createPassword(length, number, incChars));
+                  generateNewPass({ theChars: incChars });
                 }}
               />
               <span>Charactors</span>
